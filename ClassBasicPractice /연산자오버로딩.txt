@@ -1,0 +1,1 @@
+boolean value ; True / False 그 자체를 결과값으로 내 뱉는  operatsions
