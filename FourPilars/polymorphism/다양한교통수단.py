@@ -63,7 +63,7 @@ class NormalCar(Vehicle):
         #코드를 쓰세요    
 
     def __str__(self):
-        return "이 일반 자동차는 현재 {}km/h로 주행 중입니다.".format(self.speed)
+        return "이 일반 자동차는 현재 {}km/h로 주행 중입니다. ".format(self.speed)
         #코드를 쓰세요
     
     

@@ -30,9 +30,14 @@ class Cashier(Employee):
 
     """ overriding 3:super() 함수 쓰기 - self no needed """
     def __init__(self, name, wage, number_sold):
-        super().__init__(name, wage)  # self 를 없앰
+        super().__init__(name, wage) 
         self.numer_sold = number_sold
 
     def __str__(self):
         return Cashier.company_name + "계산대 직원: " + self.name
     
+henrik = Cashier('Henrik Do', 8900, 4)
+print(henrik)
+print(henrik.raise_percentage)
+
+# try q to escapte the END and return to waht you were doing before

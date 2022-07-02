@@ -21,7 +21,6 @@ class BlogUser:
         """
 
 
-
     def add_post(self, date, content): #이전 클라스를 사용할 수 있다. 즉, 이 두 
         new_post = Post(date, content)  #new_post 는 Post의 인스턴스다.
         self.posts.append(new_post) #추가해줌 

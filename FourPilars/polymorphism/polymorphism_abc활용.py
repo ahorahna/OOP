@@ -1,14 +1,9 @@
-from math import pi, sqrt #원주율,
-from abc import ABC, abstractmethod #추상화기초클라스
-
-#추상 메소드: 자식 클라스가 반드시 오버라이딩 해야 되는 메소드 
-# 이런 추상 메소드가 하나 이상 있어야 추상클라스가 된다. 
-# 그러니까 추상클라스는 1) ABC 를 상속받고 2)적어도 하나 이상의 추상메소드를 가져야 한다.
+from math import pi, sqrt
+from abc import ABC, abstractmethod 
 
 class Shape(ABC):
     """도형 클라스"""
-    @abstractmethod 
-    def area(self) -> float: #type hinting 을 쓰면 자식클라스에서 이 메소드를 어떻게 오버라이딩 해줘야 되는지 감도 준다.
+    def area(self) -> float:
         """도형의 넓이를 리턴한다: 자식 클라스가 오버라이딩 할 것"""
         pass 
 
@@ -17,15 +12,23 @@ class Shape(ABC):
         """도형의 둘레를 리턴한다: 자식 클라스가 오버라이딩 할 것"""
         pass 
 
-class EquilateralTriangle(Shape):
-    """정삼각형 클라스
-    일반 상속의 문제점: isinstance(shape, Shape)는 True 가 되겠지만, NoneTypeError가 뜸: area , perimeter
-    메소드를 오버라이딩 하지 않음!!!"""
+class EquilateralTriangle(Shape): 
     def __init__(self, side):
         self.side = side 
+    """ 한 다리 건너서 : 즉 - Shape - ABC를 상속받고 있다. 
+    그래서 EquilaterTriangle 도 추상클라스이지만 
+    여기서 추상 메소드를 하나라도 오버라이딩 하면
+     추상클라스에서 일반 클라스로 된다."""
 
-# area, perimeter를 오버라이딩 하지 않음: 그럼 이것도 그대로 abstract class 로 남음
+    def area(self):
+        """정삼각형의 넓이를 리턴한다"""
+        return sqrt(3) * self.side * self.side / 4
 
+    def perimeter(self):
+        """정삼각형의 둘레를 리턴한다"""
+        return 3 * self.side
+         
+         
 class Rectangle(Shape): 
     """직사각형 클라스"""
     def __init__(self , width, height):
@@ -44,6 +47,7 @@ class Rectangle(Shape):
         """직사각형 정보를 문자열로 리턴한다"""
         return "밑변 {}, 높이{}인 직사각형".format(self.width, self.height)
 
+
 class Circle(Shape): 
     """원 클라스"""
     def __init__(self, radius):
@@ -60,6 +64,7 @@ class Circle(Shape):
     def __str__(self):
         """원 정보를 문자열로 리턴한다"""
         return "반지름{}인 직사각형".format(self.radius)
+
 
 class Cylinder: 
     """원통 클라스"""
@@ -87,7 +92,7 @@ class Paint:
     def total_area_of_shapes(self):
         """그림판에 있는 모든 도형의 넓이의 합을 구한다"""
         return sum([shape.area() for shape in self.shapes]) 
-                                                           
+                                                            
     def total_perimeter_of_shapes(self):
         """그림팡네 있는 모든 도형의 둘레의 합을 구한다"""
         return sum([shape.perimeter() for shape in self.shapes])
@@ -112,11 +117,6 @@ paint_program.add_shape(rectangle)
 
 print(paint_program.total_perimeter_of_shapes())
 print(paint_program.total_area_of_shapes())
-
-
-
-
-
 
 
 

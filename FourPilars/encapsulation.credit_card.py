@@ -29,7 +29,7 @@ class CreditCard:
         if value < 0 or value >  MAX_PAYMENT_LIMIT:
             print("카드 한도는 0원 ~ 3천만 원 사이로 설정해주세요!")
         else:
-            return self.__payment_limit = value
+            return self.__payment_limit == value
     
 
 """

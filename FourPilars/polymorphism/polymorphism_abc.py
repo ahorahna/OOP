@@ -1,18 +1,25 @@
-from math import pi #원주율
+from math import pi 
+from abc import ABC, abstractmethod 
 
-
-class Shape:
+class Shape(ABC):
     """도형 클라스"""
-    # def __init__(self): 생성자가 필요 없음? 
-    #     pass 
-    def area(self):
+    @abstractmethod 
+    def area(self) -> float: #type hinting 을 쓰면 자식클라스에서 이 메소드를 어떻게 오버라이딩 해줘야 되는지 감도 준다.
         """도형의 넓이를 리턴한다: 자식 클라스가 오버라이딩 할 것"""
         pass 
 
-    def perimeter(self):
+    @abstractmethod
+    def perimeter(self) -> float:
         """도형의 둘레를 리턴한다: 자식 클라스가 오버라이딩 할 것"""
         pass 
-         
+
+class EquilateralTriangle(Shape):
+    """정삼각형 클라스
+    area , perimeter 메소드를 오버라이딩 하지 않음!!! 추상메소드를 오버라이딩 하지 않으면 그대로 추상메소드로 남는다.
+    즉1. ABC를 상속받고 2. 추상메소드를 하나 이상 가지고 있기 때메 EquilateralTriangle 은 추상 클라스다"""
+    def __init__(self, side):
+        self.side = side 
+
 class Rectangle(Shape): 
     """직사각형 클라스"""
     def __init__(self , width, height):
@@ -31,7 +38,6 @@ class Rectangle(Shape):
         """직사각형 정보를 문자열로 리턴한다"""
         return "밑변 {}, 높이{}인 직사각형".format(self.width, self.height)
 
-
 class Circle(Shape): 
     """원 클라스"""
     def __init__(self, radius):
@@ -49,7 +55,6 @@ class Circle(Shape):
         """원 정보를 문자열로 리턴한다"""
         return "반지름{}인 직사각형".format(self.radius)
 
-
 class Cylinder: 
     """원통 클라스"""
     def __init__(self, radius, height):
@@ -65,33 +70,18 @@ class Paint:
     def __init__(self):
         self.shapes = []
 
-    """
-    모든 도형 종류마다 isinstance 를 사용하는 경우 (상속 x):
-    def add_shape(self, shape)
-        if isinstance(shape, Circle) or isinstance(shape, Rectangle):
-            self.shapes.append(shape)
-        else:
-            print("넓이, 둘레를 구하는 메소드가 없는 도형은 추가할 수 없습니다." )
-    """
-
     def add_shape(self, shape):
-        """그림판에 도형을 추가한다"""
-        """ 위처럼 그럴 필요 없이 shape이 Shape 클라스의 인스턴스인지만 확인한다. 
-        왜냐하면 Shape 의 인스턴스라는건 그 인스턴스가 area, perimeter 메소드를 
-        가지고 있다는 뜻이기 때문이다. """
         if isinstance(shape, Shape):
             self.shapes.append(shape)
         else:
             print('넓이, 둘레를 구하는 메소드가 없는 도형을 추가할 수 없습니다!')
 
-        
+        """그림판에 도형을 추가한다"""
     
     def total_area_of_shapes(self):
         """그림판에 있는 모든 도형의 넓이의 합을 구한다"""
-        return sum([shape.area() for shape in self.shapes]) # 리스트 컴프리헨션 
-                                                            # sum은 배열안의 수를 모두 더한 값을 리턴
-                                                            # shape.area() - 이상하게 느껴짐: polymorphism
-
+        return sum([shape.area() for shape in self.shapes]) 
+                                                           
     def total_perimeter_of_shapes(self):
         """그림팡네 있는 모든 도형의 둘레의 합을 구한다"""
         return sum([shape.perimeter() for shape in self.shapes])
@@ -104,6 +94,8 @@ class Paint:
         return res_str
 
 
+shape = Shape() 
+# 추상클라스는 인스턴스 생성불가   
 cylinder = Cylinder(7, 4)
 rectangle = Rectangle(3, 7)
 circle = Circle(4)
@@ -117,12 +109,7 @@ print(paint_program.total_perimeter_of_shapes())
 print(paint_program.total_area_of_shapes())
 
 
-"""
-넓이, 둘레를 구하는 메소드가 없는 도형을 추가할 수 없습니다!
-cylinder instance 는 Shape class의 instance 가 아니기 때문이다. 
 
-
-"""
 
 
 
